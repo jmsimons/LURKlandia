@@ -12,13 +12,13 @@ def setup_logging():
     FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
     logging.basicConfig(filename = 'LURK.log', level = logging.DEBUG)
 
-def spawn_game_process(game_queue, client_queue):
+def spawn_game_process(game_queue, client_queue): # TODO: Won't use, since each client will handle its own game process.
     p = Process(target = Game, args = (game_queue, client_queue), daemon = True)
     p.start()
     print('Conn Process PID:', os.getpid())
     print('Game Process PID:', p.pid)
 
-def main(server_conn):
+def main(server_conn): # TODO: This loop should be moved into client_manager
     conns = []
     attempts = []
     client_manager = ClientManager()

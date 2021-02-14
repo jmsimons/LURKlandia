@@ -38,7 +38,7 @@ class Client: ### This class holds Player data and processes incoming and outgoi
         self.client_router = router_queue
         self.new_thread(conn)
 
-    def new_thread(self, conn):
+    def new_thread(self, conn): # TODO: Remove, Client will now be run in its own Process. 
         self.conn = conn
         self.lurk = LURKprot(conn = conn)
         self.thread = threading.Thread(target = self.conn_loop, name = f'{self.name}_thread')

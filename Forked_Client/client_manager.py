@@ -11,7 +11,7 @@ class ClientManager: ### Uses a threaded loop to relay messages between Clients 
     def __init__(self):
         self.game_settings = game_settings
         self.lurk = LURKprot()
-        self.players = {}
+        self.players = {} # TODO: won't track players, only new conns until they start in their own process.
         self.router_queue = mp.Queue()
         self.thread = threading.Thread(target = self.message_loop)
         self.thread.start()
@@ -40,6 +40,7 @@ class ClientManager: ### Uses a threaded loop to relay messages between Clients 
         p.start()
         return send_queue
 
+    
     def approve_conn(self, conn): ### Checks availability of name or innactive Player object, creates/updates Player or responds with error message ###
         message_dict = self.lurk.decode(conn = conn)
         if message_dict and 'type' in message_dict and message_dict['type'] == 10:
@@ -47,6 +48,7 @@ class ClientManager: ### Uses a threaded loop to relay messages between Clients 
             # print(f'Approval pending for: {name}')
             stats_total = message_dict['attack'] + message_dict['defense'] + message_dict['regen']
             if stats_total == self.game_settings['initial_points']:
+                # TODO: This block should be moved into Game
                 if name in self.players:
                     print("Attempting to resurrect")
                     if self.resurrect_player(conn, message_dict):

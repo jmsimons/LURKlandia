@@ -11,13 +11,14 @@ class Game:
     def __init__(self, game_queue, client_queue):
         self.settings = LURKconfig.game_settings
         self.lurk = LURKprot()
-        self.rooms = {}
+        self.room = {}
         self.players = {} # Now holds player Character objects instead of Player objects
         # self.game_queue = game_queue
         self.client_queue = client_queue
         # self.load_map()
         # self.game_loop()
 
+    # TODO: Remove, Game will only need to load the player's current room.
     def load_map(self): ### Loads Rooms, Connections, Monsters, and Lootables from database ###
         session = models.Session()
         rooms = session.query(models.Room).all()
